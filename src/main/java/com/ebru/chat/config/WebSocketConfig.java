@@ -14,13 +14,11 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        //istemcilerin sunucuya bağlanmak için kullanacağı bir websocket uç noktasını kaydetmek için kullanılır.
         registry.addEndpoint("/websocket").setAllowedOriginPatterns("*").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app").enableSimpleBroker("/topic");
-        //mesajları bir istemciden diğerine yönlendirmek için kullanılacak olan mesaj aracımızı yapılandırmak için kullanılır.
     }
 }

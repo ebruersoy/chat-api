@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  chat-api:
+    container_name: chat-api-container
+    image: chat
+    build:
+      context: ../../
+    depends_on:
+      - chat-api-postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://chat-api-postgres:5432/chat
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_PROFILES_ACTIVE=local
+    ports:
+      - 8090:8090
+  chat-api-postgres:
+    container_name: chat-api-postgres-container
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=chat
+      - POSRGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - database_data:/data/postgres
+volumes:
+  database_data:
+    driver: local
