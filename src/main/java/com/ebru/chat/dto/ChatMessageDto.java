@@ -1,9 +1,10 @@
 package com.ebru.chat.dto;
 
 import com.ebru.chat.model.ChatMessage;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
@@ -11,22 +12,22 @@ import java.time.ZonedDateTime;
 /**
  * @author Ebru Ersoy Göksal
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class ChatMessageDto implements Serializable {
-    @JsonProperty
+    @JsonProperty(required = true )
+    @NotNull(message = "Sender is mandatory")
+    @NotEmpty(message = "Sender is mandatory")
     private String sender;
-    @JsonProperty
+
+    @JsonProperty(required = true)
+    @NotNull(message = "Content is mandatory")
+    @NotEmpty(message = "Content is mandatory")
     private String content;
+
     @JsonProperty
     private Long createdAt;
 
     public ChatMessageDto() {
-    }
-
-    public ChatMessageDto(String sender, String content, Long createdAt) {
-        this.sender = sender;
-        this.content = content;
-        this.createdAt = createdAt;
     }
 
     public String getSender() {

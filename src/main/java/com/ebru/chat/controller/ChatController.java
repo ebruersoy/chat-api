@@ -1,12 +1,13 @@
 package com.ebru.chat.controller;
 
 import com.ebru.chat.dto.ChatMessageDto;
-import com.ebru.chat.exception.InvalidRequestException;
 import com.ebru.chat.service.ChatService;
 import com.ebru.chat.utils.Util;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(path = "api/v1")
+@Validated
 public class ChatController {
 
     ChatService chatService;
@@ -31,13 +33,7 @@ public class ChatController {
     }
 
     @PostMapping("send")
-    public void sendMessage(@RequestBody ChatMessageDto messageRequest) {
-        if(messageRequest.getContent() == null || messageRequest.getContent().isEmpty()){
-            throw new InvalidRequestException("content", messageRequest.getContent(),"not null or empty");
-        }
-        if(messageRequest.getSender() == null || messageRequest.getSender().isEmpty()){
-            throw new InvalidRequestException("sender", messageRequest.getSender(),"not null or empty");
-        }
+    public void sendMessage(@Valid @RequestBody ChatMessageDto messageRequest) {
         ZonedDateTime now = ZonedDateTime.now();
         messageRequest.setCreatedAt(Util.toEpochMilliSeconds(now));
         template.convertAndSend("/topic/public", messageRequest);
