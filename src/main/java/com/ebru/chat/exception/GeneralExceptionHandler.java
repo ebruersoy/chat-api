@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @author Ebru Ersoy Göksal
  */
 @ControllerAdvice
-class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
+public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
     // @Validate For Validating Path Variables and Request Parameters
     @ExceptionHandler(ConstraintViolationException.class)
